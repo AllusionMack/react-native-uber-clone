@@ -3,11 +3,13 @@ import HomeScreen from "../screens/HomeScreen";
 import MapScreen from "../screens/MapScreen";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import RideOptionsCard from "./RideOptionsCard";
 
 export type StackList = {
   HomeScreen: undefined;
   MapScreen: undefined;
   EatsScreen: undefined;
+  RideOptionsCard: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackList>();
@@ -32,6 +34,13 @@ const HomeNavigation = () => {
       <Stack.Screen
         name="EatsScreen"
         component={EatsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="RideOptionsCard"
+        component={RideOptionsCard}
         options={{
           headerShown: false,
         }}

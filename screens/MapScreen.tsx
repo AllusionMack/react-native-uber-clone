@@ -7,6 +7,7 @@ import MapScreenNavigation from "../components/MapScreenNavigation";
 import React from "react";
 import tailwind from "tailwind-react-native-classnames";
 import { useNavigation } from "@react-navigation/native";
+import RideOptionsCard from "../components/RideOptionsCard";
 
 const MapScreen = () => {
   const navigation = useNavigation<HomeScreenProp>();
@@ -19,10 +20,10 @@ const MapScreen = () => {
       >
         <Icon name="menu" />
       </TouchableOpacity>
-      <View style={tailwind`h-1/2`}>
+      <View style={tailwind`h-1/3`}>
         <Map />
       </View>
-      <View style={tailwind`h-1/2`}>
+      <View style={tailwind`h-2/3`}>
         <MapScreenNavigation />
       </View>
     </View>

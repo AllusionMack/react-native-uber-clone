@@ -1,7 +1,6 @@
 import { Image, View } from "react-native";
 import { setDestination, setOrigin } from "../app/slices/navigationSlice";
 
-import { GOOGLE_MAPS_API_KEY } from "@env";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import NavFavorites from "../components/NavFavorites";
 import NavOptions from "../components/NavOptions";
@@ -17,15 +16,15 @@ const HomeScreen = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <View style={tailwind`p-5`}>
         <Image
-          style={{ width: 100, height: 100, resizeMode: "contain" }}
+          style={{ width: 250, height: 100, resizeMode: "contain" }}
           source={{
-            uri: "https://links.papareact.com/gzs",
+            uri: "https://lemonsquad.com/images/layout/logo_dark_wide.png",
           }}
         />
         <GooglePlacesAutocomplete
           nearbyPlacesAPI="GooglePlacesSearch"
           debounce={400}
-          placeholder="Where from?"
+          placeholder="Get started"
           enablePoweredByContainer={false}
           minLength={2}
           fetchDetails={true}
@@ -39,7 +38,7 @@ const HomeScreen = () => {
             dispatch(setDestination(null));
           }}
           query={{
-            key: GOOGLE_MAPS_API_KEY,
+            key: 'AIzaSyAsSbQlGlR1hoyu6WLh1I6tyRJLl1SX8Fw',
             language: "en",
           }}
           styles={{

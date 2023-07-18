@@ -1,5 +1,5 @@
-import MapView, { Marker } from "react-native-maps";
-import React, { useEffect, useRef } from "react";
+import MapView from "react-native-maps";
+import React, { useEffect, useRef, useState } from "react";
 import {
   selectDestination,
   selectOrigin,
@@ -7,83 +7,86 @@ import {
 } from "../app/slices/navigationSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-import { GOOGLE_MAPS_API_KEY } from "@env";
 import MapViewDirections from "react-native-maps-directions";
 import tailwind from "tailwind-react-native-classnames";
+import * as Location from 'expo-location';
+
+
 
 const Map = () => {
   const dispatch = useDispatch();
   const origin = useSelector(selectOrigin);
   const destination = useSelector(selectDestination);
   const mapRef = useRef<MapView>(null);
+  const [userLocation, setUserLocation] = useState<any>(null);
+
+  const getCurrentLocation = async () => {
+    try {
+      // Ask for permission to access location
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.error('Permission to access location was denied');
+        return;
+      }
+
+      // Get the location data
+      let location = await Location.getCurrentPositionAsync({});
+      setUserLocation(location);
+      console.log('Current location:', location.coords.latitude, location.coords.longitude);
+    } catch (error) {
+      console.error('An error occurred while trying to get the location:', error);
+    }
+  }
 
   useEffect(() => {
+    getCurrentLocation();
+    /*
     if (!origin || !destination) return;
 
     mapRef.current?.fitToSuppliedMarkers(["origin", "destination"], {
       edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
     });
-  }, [origin, destination]);
+    */
+  }, []);
 
   useEffect(() => {
-    if (!origin || !destination) return;
+    //if (!origin || !destination) return;
 
+    /*
     const getTravelTime = async () => {
-      const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${origin.description}&destinations=${destination.description}&key=${GOOGLE_MAPS_API_KEY}`;
+      const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${origin.description}&destinations=${destination.description}&key=AIzaSyAsSbQlGlR1hoyu6WLh1I6tyRJLl1SX8Fw`;
       const response = await fetch(url);
       const data = await response.json();
       dispatch(setTravelTimeInfo(data.rows[0].elements[0]));
     };
+    */
 
-    getTravelTime();
-  }, [origin, destination, GOOGLE_MAPS_API_KEY]);
+    // getTravelTime();
+
+    if (userLocation) {
+      setTimeout(() => {
+        mapRef.current?.animateToRegion({
+          latitude: userLocation?.coords.latitude,
+          longitude: userLocation?.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }, 3000);
+      }, 1000);
+    }
+  }, [userLocation]);
 
   return (
     <MapView
       ref={mapRef}
       initialRegion={{
-        latitude: origin?.location?.lat || 37.78825,
-        longitude: origin?.location?.lng || -122.4324,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
+        latitude: userLocation?.coords.latitude || 36.7783,
+        longitude: userLocation?.coords.longitude || -119.4179,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
       }}
       mapType="mutedStandard"
       style={tailwind`flex-1`}
     >
-      {origin && destination && (
-        <MapViewDirections
-          origin={origin.description}
-          destination={destination.description}
-          apikey={GOOGLE_MAPS_API_KEY}
-          strokeWidth={3}
-          strokeColor="blue"
-          lineDashPattern={[0]}
-        />
-      )}
-
-      {origin?.location && (
-        <Marker
-          coordinate={{
-            latitude: origin.location.lat,
-            longitude: origin.location.lng,
-          }}
-          title="Origin"
-          description={origin.description}
-          identifier="origin"
-        />
-      )}
-
-      {destination?.location && (
-        <Marker
-          coordinate={{
-            latitude: destination.location.lat,
-            longitude: destination.location.lng,
-          }}
-          title="Destination"
-          description={destination.description}
-          identifier="destination"
-        />
-      )}
     </MapView>
   );
 };

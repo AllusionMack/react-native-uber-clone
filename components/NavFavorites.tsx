@@ -20,10 +20,7 @@ const NavFavorites = ({ shouldSetOrigin }: { shouldSetOrigin?: boolean }) => {
 
   return (
     <FlatList
-      data={favoritesData.filter(
-        // Checks to see if Home or Work is already selected
-        (item) => shouldSetOrigin || origin?.location !== item.location
-      )}
+      data={favoritesData}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={() => (
         <View
@@ -35,32 +32,15 @@ const NavFavorites = ({ shouldSetOrigin }: { shouldSetOrigin?: boolean }) => {
           ]}
         />
       )}
-      renderItem={({ item: { name, icon, location, description } }) => (
+      renderItem={({ item: { name, icon, type, description } }) => (
         <TouchableOpacity
           style={tailwind`flex-row items-center py-5`}
-          onPress={() => {
-            if (shouldSetOrigin) {
-              dispatch(
-                setOrigin({
-                  location,
-                  description,
-                })
-              );
-              navigation.navigate("MapScreen");
-            } else {
-              dispatch(
-                setDestination({
-                  location,
-                  description,
-                })
-              );
-            }
-          }}
+          onPress={() => { }}
         >
           <Icon
             style={tailwind`mr-4 rounded-full bg-gray-300 p-3`}
             name={icon}
-            type="ionicon"
+            type={type}
             color="white"
             size={18}
           />
@@ -78,24 +58,31 @@ type FavoritesData = {
   id: string;
   name: string;
   icon: string;
-  location: Point;
+  type: string;
   description: string;
 }[];
 
 const favoritesData: FavoritesData = [
   {
     id: "234",
-    icon: "home",
-    name: "Home",
-    location: { lat: 5.4945, lng: -0.4118 },
-    description: "Jordan Gospel Centre, Land of Grace",
+    icon: "user",
+    name: "Account",
+    type: "font-awesome",
+    description: "manage cars, payments and more",
   },
   {
     id: "567",
-    icon: "briefcase",
-    name: "Work",
-    location: { lat: 5.5497, lng: -0.3522 },
-    description: "Finger Bites Kitchen, Mile 11",
+    icon: "history",
+    type: "font-awesome",
+    name: "History",
+    description: "view inspection history",
+  },
+  {
+    id: "568",
+    icon: "comments",
+    type: "font-awesome",
+    name: "Support",
+    description: "get help now",
   },
 ];
 

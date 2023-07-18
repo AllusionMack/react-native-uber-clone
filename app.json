@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "UberClone",
-    "slug": "UberClone",
+    "name": "LemonSquadDemo",
+    "slug": "LemonSquadDemo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,16 +17,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.davidseager.LemonSquadDemo"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.davidseager.LemonSquadDemo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f0c102bd-9587-489a-8895-99c77eb54584"
+      }
     }
   }
 }

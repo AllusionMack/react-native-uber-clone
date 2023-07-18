@@ -16,7 +16,7 @@ const EatsScreen = () => {
         />
       </View>
       <Text style={{ marginTop: 24, fontSize: 16 }}>
-        Not yet implemented...
+        This is an example screen...
       </Text>
     </SafeAreaView>
   );

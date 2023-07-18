@@ -4,14 +4,11 @@ import { Icon } from "react-native-elements";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { StackList } from "./HomeNavigation";
-import { selectOrigin } from "../app/slices/navigationSlice";
 import tailwind from "tailwind-react-native-classnames";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
 
 const NavOptions = () => {
   const navigation = useNavigation<HomeScreenProp>();
-  const origin = useSelector(selectOrigin);
 
   return (
     <FlatList
@@ -20,11 +17,10 @@ const NavOptions = () => {
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <TouchableOpacity
-          disabled={!origin}
           onPress={() => navigation.navigate(item.screen)}
           style={tailwind`pr-2 pl-6 pt-4 pb-8 bg-gray-200 mr-2 mb-5 w-40 rounded-md`}
         >
-          <View style={tailwind.style(!origin && "opacity-20")}>
+          <View>
             <Image
               source={{ uri: item.image }}
               style={{ width: 120, height: 120, resizeMode: "contain" }}
@@ -53,14 +49,14 @@ type NavData = {
 export const navData: NavData = [
   {
     id: "123",
-    title: "Get a ride",
+    title: "Get an Inspection",
     image: "https://links.papareact.com/3pn",
     screen: "MapScreen",
   },
   {
     id: "456",
-    title: "Order Food",
-    image: "https://links.papareact.com/28w",
+    title: "Become an Inspector",
+    image: "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3172779/wrench-clipart-xl.png",
     screen: "EatsScreen",
   },
 ];
